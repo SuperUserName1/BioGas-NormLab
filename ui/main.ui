@@ -1,0 +1,853 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>900</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1200</width>
+      <height>900</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="main">
+     <widget class="QWidget" name="gridLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>120</y>
+        <width>1161</width>
+        <height>771</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="grid_layout_line_text" rowstretch="0,0,0,0,0" columnstretch="0,0">
+       <property name="horizontalSpacing">
+        <number>50</number>
+       </property>
+       <property name="verticalSpacing">
+        <number>10</number>
+       </property>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="line_edit_length_step">
+         <property name="minimumSize">
+          <size>
+           <width>480</width>
+           <height>60</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #f9f9f9;
+width: 500;
+border-radius: 10px;      </string>
+         </property>
+         <property name="placeholderText">
+          <string>Шаг по длине (dx в метрах)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLineEdit" name="line_edit_initial_temperature">
+         <property name="minimumSize">
+          <size>
+           <width>480</width>
+           <height>60</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #f9f9f9;
+width: 500;
+border-radius: 10px;      </string>
+         </property>
+         <property name="placeholderText">
+          <string>Начальная температура</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLineEdit" name="line_edit_reactor_parameters">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>480</width>
+           <height>60</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #f9f9f9;
+width: 500;
+border-radius: 10px;      </string>
+         </property>
+         <property name="placeholderText">
+          <string>Параметры реактора (длинна в метрах)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLineEdit" name="line_edit_temperatur_walls">
+         <property name="minimumSize">
+          <size>
+           <width>480</width>
+           <height>60</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #f9f9f9;
+width: 500;
+border-radius: 10px;      </string>
+         </property>
+         <property name="placeholderText">
+          <string>Температура стенки</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="line_edit_time_step">
+         <property name="minimumSize">
+          <size>
+           <width>480</width>
+           <height>60</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #f9f9f9;
+width: 500;
+border-radius: 10px;      </string>
+         </property>
+         <property name="placeholderText">
+          <string>Шаг по времени (dt в секундах)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLineEdit" name="line_edit_density">
+         <property name="minimumSize">
+          <size>
+           <width>480</width>
+           <height>60</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #f9f9f9;
+width: 500;
+border-radius: 10px;      </string>
+         </property>
+         <property name="placeholderText">
+          <string>Плотность (ρ в кг/м³)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="line_edit_heat_capacity">
+         <property name="minimumSize">
+          <size>
+           <width>480</width>
+           <height>60</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #f9f9f9;
+width: 500;
+border-radius: 10px;      </string>
+         </property>
+         <property name="placeholderText">
+          <string>Удельная теплоемкость (Cp в Дж/(кг·K))</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="line_edit_humidity">
+         <property name="minimumSize">
+          <size>
+           <width>480</width>
+           <height>60</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #f9f9f9;
+width: 500;
+border-radius: 10px;      </string>
+         </property>
+         <property name="placeholderText">
+          <string>Влажность (H в %)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLineEdit" name="line_edit_total_time">
+         <property name="minimumSize">
+          <size>
+           <width>480</width>
+           <height>60</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #f9f9f9;
+width: 500;
+border-radius: 10px;      </string>
+         </property>
+         <property name="placeholderText">
+          <string>Общее время моделирования (в секундах)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QPushButton" name="push_button_simulate">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <family>Agency FB</family>
+           <pointsize>20</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">
+QPushButton {
+	background-color: #0055ff;
+	width: 238px;
+	height: 67px;
+	border-radius: 10px;
+	color: #ffffff;
+}
+	QPushButton:hover {
+        background-color: #0049de;
+        transform: scale(1.05);
+    }
+    
+    QPushButton:pressed {
+        background-color: #0044cc;
+        transform: scale(0.95);
+    }</string>
+         </property>
+         <property name="text">
+          <string>Смоделировать</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QFrame" name="frame_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>600</width>
+        <height>120</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(0, 85, 255);
+border: none;
+border-bottom-right-radius: 15px;
+horizontal-aligment: center;</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QPushButton" name="push_button_0">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>30</y>
+         <width>238</width>
+         <height>67</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Agency FB</family>
+         <pointsize>20</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	background-color: #ffffff;
+	width: 238px;
+	height: 67px;
+	border-radius: 12px;
+	color: #0055ff;
+}
+	QPushButton:hover {
+        background-color: #ebebeb;
+        transform: scale(1.05);
+    }
+    
+    QPushButton:pressed {
+        background-color: #cdcdcd;
+        transform: scale(0.95);
+    }</string>
+       </property>
+       <property name="text">
+        <string>Рассчеты</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="push_button_window_results">
+       <property name="geometry">
+        <rect>
+         <x>320</x>
+         <y>30</y>
+         <width>238</width>
+         <height>67</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Agency FB</family>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	background-color: #ffffff;
+	width: 238px;
+	height: 67px;
+	border-radius: 12px;
+	color: #0055ff;
+}
+	QPushButton:hover {
+        background-color: #ebebeb;
+        transform: scale(1.05);
+    }
+    
+    QPushButton:pressed {
+        background-color: #cdcdcd;
+        transform: scale(0.95);
+    }</string>
+       </property>
+       <property name="text">
+        <string>Результаты</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QLabel" name="label_9">
+      <property name="geometry">
+       <rect>
+        <x>680</x>
+        <y>30</y>
+        <width>471</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Britannic Bold</family>
+        <pointsize>30</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: #0055ff;</string>
+      </property>
+      <property name="text">
+       <string>BioGas NormLab</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_notification">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>70</y>
+        <width>701</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="results">
+     <widget class="QFrame" name="frame_3">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>600</width>
+        <height>120</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(0, 85, 255);
+border: none;
+border-bottom-right-radius: 15px;</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QPushButton" name="push_button_window_calculation">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>30</y>
+         <width>238</width>
+         <height>67</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Agency FB</family>
+         <pointsize>20</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	background-color: #ffffff;
+	width: 238px;
+	height: 67px;
+	border-radius: 12px;
+	color: #0055ff;
+}
+	QPushButton:hover {
+        background-color: #ebebeb;
+        transform: scale(1.05);
+    }
+    
+    QPushButton:pressed {
+        background-color: #cdcdcd;
+        transform: scale(0.95);
+    }</string>
+       </property>
+       <property name="text">
+        <string>Рассчеты</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_1">
+       <property name="geometry">
+        <rect>
+         <x>320</x>
+         <y>30</y>
+         <width>238</width>
+         <height>67</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Agency FB</family>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	background-color: #ffffff;
+	width: 238px;
+	height: 67px;
+	border-radius: 12px;
+	color: #0055ff;
+}
+	QPushButton:hover {
+        background-color: #ebebeb;
+        transform: scale(1.05);
+    }
+    
+    QPushButton:pressed {
+        background-color: #cdcdcd;
+        transform: scale(0.95);
+    }</string>
+       </property>
+       <property name="text">
+        <string>Результаты</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>85</x>
+        <y>801</y>
+        <width>1031</width>
+        <height>82</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QPushButton" name="push_button_import_temperature_distribution_csv">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>250</width>
+           <height>80</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Agency FB</family>
+           <pointsize>15</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">
+QPushButton {
+	background-color: #0055ff;
+	width: 238px;
+	height: 67px;
+	border-radius: 10px;
+	color: #ffffff;
+}
+	QPushButton:hover {
+        background-color: #0049de;
+        transform: scale(1.05);
+    }
+    
+    QPushButton:pressed {
+        background-color: #0044cc;
+        transform: scale(0.95);
+    }</string>
+         </property>
+         <property name="text">
+          <string>Загрузить температурное 
+распределение в файл .csv</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="push_button_import_energy_data_csv">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>250</width>
+           <height>80</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Agency FB</family>
+           <pointsize>15</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">
+QPushButton {
+	background-color: #0055ff;
+	width: 238px;
+	height: 67px;
+	border-radius: 10px;
+	color: #ffffff;
+}
+	QPushButton:hover {
+        background-color: #0049de;
+        transform: scale(1.05);
+    }
+    
+    QPushButton:pressed {
+        background-color: #0044cc;
+        transform: scale(0.95);
+    }</string>
+         </property>
+         <property name="text">
+          <string>Загрузить данные
+по энергии в файл .csv</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="push_button_import_all_xlsx">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>250</width>
+           <height>80</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Agency FB</family>
+           <pointsize>15</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">
+QPushButton {
+	background-color: #0055ff;
+	width: 238px;
+	height: 67px;
+	border-radius: 10px;
+	color: #ffffff;
+}
+	QPushButton:hover {
+        background-color: #0049de;
+        transform: scale(1.05);
+    }
+    
+    QPushButton:pressed {
+        background-color: #0044cc;
+        transform: scale(0.95);
+    }</string>
+         </property>
+         <property name="text">
+          <string>Загрузить все в файл .xlsx</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="gridLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>120</y>
+        <width>551</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Температурное распределение
+по длине реактора во времени (в середине).</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Температурное распределение
+по длине реактора во времени (у стенок).</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Расчет приближенного КПД системы
+по отношению к базовому нагреву.</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Расчет аккумулированной
+тепловой энергии в системе.</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_temperature_distribution_walls">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="label_accumulated_thermal_energy">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLabel" name="label_cop_base_heating">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="label_temperature_distribution_middle">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="graph_temperature_profiles" native="true">
+      <property name="geometry">
+       <rect>
+        <x>610</x>
+        <y>410</y>
+        <width>581</width>
+        <height>381</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QWidget" name="graph_temperature_change" native="true">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>410</y>
+        <width>591</width>
+        <height>381</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QWidget" name="graph_thermal_energy" native="true">
+      <property name="geometry">
+       <rect>
+        <x>610</x>
+        <y>60</y>
+        <width>581</width>
+        <height>331</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
