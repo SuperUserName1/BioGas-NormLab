@@ -31,23 +31,13 @@ class Ui_MainWindow(object):
         self.main = QtWidgets.QWidget()
         self.main.setObjectName("main")
         self.gridLayoutWidget_2 = QtWidgets.QWidget(self.main)
-        self.gridLayoutWidget_2.setGeometry(QtCore.QRect(40, 120, 1121, 541))
+        self.gridLayoutWidget_2.setGeometry(QtCore.QRect(20, 120, 1161, 771))
         self.gridLayoutWidget_2.setObjectName("gridLayoutWidget_2")
-        self.gridLayout_3 = QtWidgets.QGridLayout(self.gridLayoutWidget_2)
-        self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout_3.setHorizontalSpacing(50)
-        self.gridLayout_3.setVerticalSpacing(10)
-        self.gridLayout_3.setObjectName("gridLayout_3")
-        self.line_edit_initial_temperature = QtWidgets.QLineEdit(self.gridLayoutWidget_2)
-        self.line_edit_initial_temperature.setMinimumSize(QtCore.QSize(480, 60))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.line_edit_initial_temperature.setFont(font)
-        self.line_edit_initial_temperature.setStyleSheet("background-color: #f9f9f9;\n"
-"width: 500;\n"
-"border-radius: 10px;      ")
-        self.line_edit_initial_temperature.setObjectName("line_edit_initial_temperature")
-        self.gridLayout_3.addWidget(self.line_edit_initial_temperature, 1, 0, 1, 1)
+        self.grid_layout_line_text = QtWidgets.QGridLayout(self.gridLayoutWidget_2)
+        self.grid_layout_line_text.setContentsMargins(0, 0, 0, 0)
+        self.grid_layout_line_text.setHorizontalSpacing(50)
+        self.grid_layout_line_text.setVerticalSpacing(10)
+        self.grid_layout_line_text.setObjectName("grid_layout_line_text")
         self.line_edit_length_step = QtWidgets.QLineEdit(self.gridLayoutWidget_2)
         self.line_edit_length_step.setMinimumSize(QtCore.QSize(480, 60))
         font = QtGui.QFont()
@@ -57,7 +47,17 @@ class Ui_MainWindow(object):
 "width: 500;\n"
 "border-radius: 10px;      ")
         self.line_edit_length_step.setObjectName("line_edit_length_step")
-        self.gridLayout_3.addWidget(self.line_edit_length_step, 3, 1, 1, 1)
+        self.grid_layout_line_text.addWidget(self.line_edit_length_step, 3, 1, 1, 1)
+        self.line_edit_initial_temperature = QtWidgets.QLineEdit(self.gridLayoutWidget_2)
+        self.line_edit_initial_temperature.setMinimumSize(QtCore.QSize(480, 60))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.line_edit_initial_temperature.setFont(font)
+        self.line_edit_initial_temperature.setStyleSheet("background-color: #f9f9f9;\n"
+"width: 500;\n"
+"border-radius: 10px;      ")
+        self.line_edit_initial_temperature.setObjectName("line_edit_initial_temperature")
+        self.grid_layout_line_text.addWidget(self.line_edit_initial_temperature, 1, 0, 1, 1)
         self.line_edit_reactor_parameters = QtWidgets.QLineEdit(self.gridLayoutWidget_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -72,27 +72,7 @@ class Ui_MainWindow(object):
 "width: 500;\n"
 "border-radius: 10px;      ")
         self.line_edit_reactor_parameters.setObjectName("line_edit_reactor_parameters")
-        self.gridLayout_3.addWidget(self.line_edit_reactor_parameters, 0, 0, 1, 1)
-        self.line_edit_time_step = QtWidgets.QLineEdit(self.gridLayoutWidget_2)
-        self.line_edit_time_step.setMinimumSize(QtCore.QSize(480, 60))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.line_edit_time_step.setFont(font)
-        self.line_edit_time_step.setStyleSheet("background-color: #f9f9f9;\n"
-"width: 500;\n"
-"border-radius: 10px;      ")
-        self.line_edit_time_step.setObjectName("line_edit_time_step")
-        self.gridLayout_3.addWidget(self.line_edit_time_step, 2, 1, 1, 1)
-        self.line_edit_heat_capacity = QtWidgets.QLineEdit(self.gridLayoutWidget_2)
-        self.line_edit_heat_capacity.setMinimumSize(QtCore.QSize(480, 60))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.line_edit_heat_capacity.setFont(font)
-        self.line_edit_heat_capacity.setStyleSheet("background-color: #f9f9f9;\n"
-"width: 500;\n"
-"border-radius: 10px;      ")
-        self.line_edit_heat_capacity.setObjectName("line_edit_heat_capacity")
-        self.gridLayout_3.addWidget(self.line_edit_heat_capacity, 0, 1, 1, 1)
+        self.grid_layout_line_text.addWidget(self.line_edit_reactor_parameters, 0, 0, 1, 1)
         self.line_edit_temperatur_walls = QtWidgets.QLineEdit(self.gridLayoutWidget_2)
         self.line_edit_temperatur_walls.setMinimumSize(QtCore.QSize(480, 60))
         font = QtGui.QFont()
@@ -102,17 +82,17 @@ class Ui_MainWindow(object):
 "width: 500;\n"
 "border-radius: 10px;      ")
         self.line_edit_temperatur_walls.setObjectName("line_edit_temperatur_walls")
-        self.gridLayout_3.addWidget(self.line_edit_temperatur_walls, 2, 0, 1, 1)
-        self.line_edit_humidity = QtWidgets.QLineEdit(self.gridLayoutWidget_2)
-        self.line_edit_humidity.setMinimumSize(QtCore.QSize(480, 60))
+        self.grid_layout_line_text.addWidget(self.line_edit_temperatur_walls, 2, 0, 1, 1)
+        self.line_edit_time_step = QtWidgets.QLineEdit(self.gridLayoutWidget_2)
+        self.line_edit_time_step.setMinimumSize(QtCore.QSize(480, 60))
         font = QtGui.QFont()
         font.setPointSize(10)
-        self.line_edit_humidity.setFont(font)
-        self.line_edit_humidity.setStyleSheet("background-color: #f9f9f9;\n"
+        self.line_edit_time_step.setFont(font)
+        self.line_edit_time_step.setStyleSheet("background-color: #f9f9f9;\n"
 "width: 500;\n"
 "border-radius: 10px;      ")
-        self.line_edit_humidity.setObjectName("line_edit_humidity")
-        self.gridLayout_3.addWidget(self.line_edit_humidity, 1, 1, 1, 1)
+        self.line_edit_time_step.setObjectName("line_edit_time_step")
+        self.grid_layout_line_text.addWidget(self.line_edit_time_step, 2, 1, 1, 1)
         self.line_edit_density = QtWidgets.QLineEdit(self.gridLayoutWidget_2)
         self.line_edit_density.setMinimumSize(QtCore.QSize(480, 60))
         font = QtGui.QFont()
@@ -122,9 +102,28 @@ class Ui_MainWindow(object):
 "width: 500;\n"
 "border-radius: 10px;      ")
         self.line_edit_density.setObjectName("line_edit_density")
-        self.gridLayout_3.addWidget(self.line_edit_density, 3, 0, 1, 1)
-        self.line_edit_total_time = QtWidgets.QLineEdit(self.main)
-        self.line_edit_total_time.setGeometry(QtCore.QRect(330, 660, 541, 60))
+        self.grid_layout_line_text.addWidget(self.line_edit_density, 3, 0, 1, 1)
+        self.line_edit_heat_capacity = QtWidgets.QLineEdit(self.gridLayoutWidget_2)
+        self.line_edit_heat_capacity.setMinimumSize(QtCore.QSize(480, 60))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.line_edit_heat_capacity.setFont(font)
+        self.line_edit_heat_capacity.setStyleSheet("background-color: #f9f9f9;\n"
+"width: 500;\n"
+"border-radius: 10px;      ")
+        self.line_edit_heat_capacity.setObjectName("line_edit_heat_capacity")
+        self.grid_layout_line_text.addWidget(self.line_edit_heat_capacity, 0, 1, 1, 1)
+        self.line_edit_humidity = QtWidgets.QLineEdit(self.gridLayoutWidget_2)
+        self.line_edit_humidity.setMinimumSize(QtCore.QSize(480, 60))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.line_edit_humidity.setFont(font)
+        self.line_edit_humidity.setStyleSheet("background-color: #f9f9f9;\n"
+"width: 500;\n"
+"border-radius: 10px;      ")
+        self.line_edit_humidity.setObjectName("line_edit_humidity")
+        self.grid_layout_line_text.addWidget(self.line_edit_humidity, 1, 1, 1, 1)
+        self.line_edit_total_time = QtWidgets.QLineEdit(self.gridLayoutWidget_2)
         self.line_edit_total_time.setMinimumSize(QtCore.QSize(480, 60))
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -133,6 +132,34 @@ class Ui_MainWindow(object):
 "width: 500;\n"
 "border-radius: 10px;      ")
         self.line_edit_total_time.setObjectName("line_edit_total_time")
+        self.grid_layout_line_text.addWidget(self.line_edit_total_time, 4, 0, 1, 1)
+        self.push_button_simulate = QtWidgets.QPushButton(self.gridLayoutWidget_2)
+        self.push_button_simulate.setEnabled(True)
+        font = QtGui.QFont()
+        font.setFamily("Agency FB")
+        font.setPointSize(20)
+        font.setBold(False)
+        font.setWeight(50)
+        self.push_button_simulate.setFont(font)
+        self.push_button_simulate.setStyleSheet("\n"
+"QPushButton {\n"
+"    background-color: #0055ff;\n"
+"    width: 238px;\n"
+"    height: 67px;\n"
+"    border-radius: 10px;\n"
+"    color: #ffffff;\n"
+"}\n"
+"    QPushButton:hover {\n"
+"        background-color: #0049de;\n"
+"        transform: scale(1.05);\n"
+"    }\n"
+"    \n"
+"    QPushButton:pressed {\n"
+"        background-color: #0044cc;\n"
+"        transform: scale(0.95);\n"
+"    }")
+        self.push_button_simulate.setObjectName("push_button_simulate")
+        self.grid_layout_line_text.addWidget(self.push_button_simulate, 4, 1, 1, 1)
         self.frame_2 = QtWidgets.QFrame(self.main)
         self.frame_2.setGeometry(QtCore.QRect(0, 0, 600, 120))
         self.frame_2.setStyleSheet("background-color: rgb(0, 85, 255);\n"
@@ -191,33 +218,6 @@ class Ui_MainWindow(object):
 "        transform: scale(0.95);\n"
 "    }")
         self.push_button_window_results.setObjectName("push_button_window_results")
-        self.push_button_simulate = QtWidgets.QPushButton(self.main)
-        self.push_button_simulate.setEnabled(True)
-        self.push_button_simulate.setGeometry(QtCore.QRect(440, 760, 300, 100))
-        font = QtGui.QFont()
-        font.setFamily("Agency FB")
-        font.setPointSize(20)
-        font.setBold(False)
-        font.setWeight(50)
-        self.push_button_simulate.setFont(font)
-        self.push_button_simulate.setStyleSheet("\n"
-"QPushButton {\n"
-"    background-color: #0055ff;\n"
-"    width: 238px;\n"
-"    height: 67px;\n"
-"    border-radius: 10px;\n"
-"    color: #ffffff;\n"
-"}\n"
-"    QPushButton:hover {\n"
-"        background-color: #0049de;\n"
-"        transform: scale(1.05);\n"
-"    }\n"
-"    \n"
-"    QPushButton:pressed {\n"
-"        background-color: #0044cc;\n"
-"        transform: scale(0.95);\n"
-"    }")
-        self.push_button_simulate.setObjectName("push_button_simulate")
         self.label_9 = QtWidgets.QLabel(self.main)
         self.label_9.setGeometry(QtCore.QRect(680, 30, 471, 71))
         font = QtGui.QFont()
@@ -228,6 +228,11 @@ class Ui_MainWindow(object):
         self.label_9.setFont(font)
         self.label_9.setStyleSheet("color: #0055ff;")
         self.label_9.setObjectName("label_9")
+        self.label_notification = QtWidgets.QLabel(self.main)
+        self.label_notification.setGeometry(QtCore.QRect(220, 70, 701, 91))
+        self.label_notification.setText("")
+        self.label_notification.setObjectName("label_notification")
+        self.label_notification.hide()
         self.stackedWidget.addWidget(self.main)
         self.results = QtWidgets.QWidget()
         self.results.setObjectName("results")
@@ -460,19 +465,19 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.line_edit_initial_temperature.setPlaceholderText(_translate("MainWindow", "Начальная температура"))
         self.line_edit_length_step.setPlaceholderText(_translate("MainWindow", "Шаг по длине (dx в метрах)"))
+        self.line_edit_initial_temperature.setPlaceholderText(_translate("MainWindow", "Начальная температура"))
         self.line_edit_reactor_parameters.setPlaceholderText(_translate("MainWindow", "Параметры реактора (длинна в метрах)"))
-        self.line_edit_time_step.setPlaceholderText(_translate("MainWindow", "Шаг по времени (dt в секундах)"))
-        self.line_edit_heat_capacity.setPlaceholderText(_translate("MainWindow", "Удельная теплоемкость (Cp в Дж/(кг·K))"))
         self.line_edit_temperatur_walls.setPlaceholderText(_translate("MainWindow", "Температура стенки"))
-        self.line_edit_humidity.setPlaceholderText(_translate("MainWindow", "Влажность (H в %)"))
+        self.line_edit_time_step.setPlaceholderText(_translate("MainWindow", "Шаг по времени (dt в секундах)"))
         self.line_edit_density.setPlaceholderText(_translate("MainWindow", "Плотность (ρ в кг/м³)"))
+        self.line_edit_heat_capacity.setPlaceholderText(_translate("MainWindow", "Удельная теплоемкость (Cp в Дж/(кг·K))"))
+        self.line_edit_humidity.setPlaceholderText(_translate("MainWindow", "Влажность (H в %)"))
         self.line_edit_total_time.setPlaceholderText(_translate("MainWindow", "Общее время моделирования (в секундах)"))
+        self.push_button_simulate.setText(_translate("MainWindow", "Смоделировать"))
         self.frame_2.setToolTip(_translate("MainWindow", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
         self.push_button_0.setText(_translate("MainWindow", "Рассчеты"))
         self.push_button_window_results.setText(_translate("MainWindow", "Результаты"))
-        self.push_button_simulate.setText(_translate("MainWindow", "Смоделировать"))
         self.label_9.setText(_translate("MainWindow", "BioGas NormLab"))
         self.push_button_window_calculation.setText(_translate("MainWindow", "Рассчеты"))
         self.pushButton_1.setText(_translate("MainWindow", "Результаты"))

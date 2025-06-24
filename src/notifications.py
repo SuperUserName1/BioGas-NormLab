@@ -2,8 +2,6 @@ from PyQt5.QtWidgets import QGraphicsOpacityEffect, QApplication
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import QPropertyAnimation, QTimer
 
-import time
-
 class Notifications:
     def __init__(self, main_window):
         self.main_window = main_window
@@ -32,7 +30,7 @@ class Notifications:
     def show_notification(self):
         self.ui.label_notification.show()
         self.fade_in.start()
-
+        QTimer.singleShot(3500, self.hide_notification)
 
     def hide_notification(self):
         self.ui.label_notification.hide()
@@ -41,6 +39,5 @@ class Notifications:
     def start_notification(self, img_path):
         self.load_image(img_path)
         self.setup_animation()
-        self.show_notification()
         self.show_notification()
 
