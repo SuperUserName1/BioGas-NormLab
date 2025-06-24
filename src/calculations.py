@@ -110,8 +110,8 @@ class Calculations:
             'dt': self.get_float(self.ui.line_edit_time_step, 10.0),
             't_max': self.get_float(self.ui.line_edit_total_time, 10400.0),
             'rho': self.get_float(self.ui.line_edit_density, 1000.0),
-            'H': self.get_float(self.ui.line_edit_humidity, 0.7) / 100.0,  # % → дробь
-            'dx': 0.01  # фиксированный шаг по пространству
+            'H': self.get_float(self.ui.line_edit_humidity, 0.7) / 100.0,  
+            'dx': self.get_float(self.ui.line_edit_length_step, 0.001)
         }
         
         # Проверка плотности

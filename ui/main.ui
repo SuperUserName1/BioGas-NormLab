@@ -39,7 +39,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="main">
      <widget class="QWidget" name="gridLayoutWidget_2">
@@ -823,6 +823,10 @@ QPushButton {
         <height>381</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">border: 1px solid #000000;
+border-radius: 10px;</string>
+      </property>
      </widget>
      <widget class="QWidget" name="graph_temperature_change" native="true">
       <property name="geometry">
@@ -833,15 +837,23 @@ QPushButton {
         <height>381</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">border: 1px solid #000000;
+border-radius: 10px;</string>
+      </property>
      </widget>
      <widget class="QWidget" name="graph_thermal_energy" native="true">
       <property name="geometry">
        <rect>
         <x>610</x>
-        <y>60</y>
+        <y>20</y>
         <width>581</width>
-        <height>331</height>
+        <height>381</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: 1px solid #000000;
+border-radius: 10px;</string>
       </property>
      </widget>
     </widget>
