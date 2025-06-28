@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui/test.ui'
+# Form implementation generated from reading ui file 'ui/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from description_of_variable_hint import add_info_icons_to_line_edits
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -232,7 +232,6 @@ class Ui_MainWindow(object):
         self.label_notification.setGeometry(QtCore.QRect(220, 70, 701, 91))
         self.label_notification.setText("")
         self.label_notification.setObjectName("label_notification")
-        self.label_notification.hide()
         self.stackedWidget.addWidget(self.main)
         self.results = QtWidgets.QWidget()
         self.results.setObjectName("results")
@@ -389,71 +388,51 @@ class Ui_MainWindow(object):
         self.push_button_import_all_xlsx.setObjectName("push_button_import_all_xlsx")
         self.horizontalLayout_2.addWidget(self.push_button_import_all_xlsx)
         self.gridLayoutWidget = QtWidgets.QWidget(self.results)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(20, 120, 551, 261))
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(20, 120, 571, 211))
         self.gridLayoutWidget.setObjectName("gridLayoutWidget")
         self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setObjectName("gridLayout")
-        self.label_2 = QtWidgets.QLabel(self.gridLayoutWidget)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_2.setFont(font)
-        self.label_2.setObjectName("label_2")
-        self.gridLayout.addWidget(self.label_2, 1, 0, 1, 1)
-        self.label = QtWidgets.QLabel(self.gridLayoutWidget)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label.setFont(font)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
-        self.label_4 = QtWidgets.QLabel(self.gridLayoutWidget)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_4.setFont(font)
-        self.label_4.setObjectName("label_4")
-        self.gridLayout.addWidget(self.label_4, 3, 0, 1, 1)
-        self.label_3 = QtWidgets.QLabel(self.gridLayoutWidget)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_3.setFont(font)
-        self.label_3.setObjectName("label_3")
-        self.gridLayout.addWidget(self.label_3, 2, 0, 1, 1)
-        self.label_temperature_distribution_walls = QtWidgets.QLabel(self.gridLayoutWidget)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_temperature_distribution_walls.setFont(font)
-        self.label_temperature_distribution_walls.setText("")
-        self.label_temperature_distribution_walls.setObjectName("label_temperature_distribution_walls")
-        self.gridLayout.addWidget(self.label_temperature_distribution_walls, 0, 1, 1, 1)
-        self.label_accumulated_thermal_energy = QtWidgets.QLabel(self.gridLayoutWidget)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.label_accumulated_thermal_energy.setFont(font)
-        self.label_accumulated_thermal_energy.setText("")
-        self.label_accumulated_thermal_energy.setObjectName("label_accumulated_thermal_energy")
-        self.gridLayout.addWidget(self.label_accumulated_thermal_energy, 2, 1, 1, 1)
         self.label_cop_base_heating = QtWidgets.QLabel(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.label_cop_base_heating.setFont(font)
         self.label_cop_base_heating.setText("")
         self.label_cop_base_heating.setObjectName("label_cop_base_heating")
-        self.gridLayout.addWidget(self.label_cop_base_heating, 3, 1, 1, 1)
-        self.label_temperature_distribution_middle = QtWidgets.QLabel(self.gridLayoutWidget)
+        self.gridLayout.addWidget(self.label_cop_base_heating, 1, 1, 1, 1)
+        self.label_3 = QtWidgets.QLabel(self.gridLayoutWidget)
         font = QtGui.QFont()
         font.setPointSize(10)
-        self.label_temperature_distribution_middle.setFont(font)
-        self.label_temperature_distribution_middle.setText("")
-        self.label_temperature_distribution_middle.setObjectName("label_temperature_distribution_middle")
-        self.gridLayout.addWidget(self.label_temperature_distribution_middle, 1, 1, 1, 1)
+        self.label_3.setFont(font)
+        self.label_3.setObjectName("label_3")
+        self.gridLayout.addWidget(self.label_3, 0, 0, 1, 1)
+        self.label_4 = QtWidgets.QLabel(self.gridLayoutWidget)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.label_4.setFont(font)
+        self.label_4.setObjectName("label_4")
+        self.gridLayout.addWidget(self.label_4, 1, 0, 1, 1)
+        self.label_accumulated_thermal_energy = QtWidgets.QLabel(self.gridLayoutWidget)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.label_accumulated_thermal_energy.setFont(font)
+        self.label_accumulated_thermal_energy.setText("")
+        self.label_accumulated_thermal_energy.setObjectName("label_accumulated_thermal_energy")
+        self.gridLayout.addWidget(self.label_accumulated_thermal_energy, 0, 1, 1, 1)
         self.graph_temperature_profiles = QtWidgets.QWidget(self.results)
-        self.graph_temperature_profiles.setGeometry(QtCore.QRect(610, 410, 581, 381))
+        self.graph_temperature_profiles.setGeometry(QtCore.QRect(610, 400, 581, 400))
+        self.graph_temperature_profiles.setStyleSheet("border: 1px solid #000000;\n"
+"border-radius: 10px;")
         self.graph_temperature_profiles.setObjectName("graph_temperature_profiles")
         self.graph_temperature_change = QtWidgets.QWidget(self.results)
-        self.graph_temperature_change.setGeometry(QtCore.QRect(10, 410, 591, 381))
+        self.graph_temperature_change.setGeometry(QtCore.QRect(10, 400, 591, 400))
+        self.graph_temperature_change.setStyleSheet("border: 1px solid #000000;\n"
+"border-radius: 10px;")
         self.graph_temperature_change.setObjectName("graph_temperature_change")
         self.graph_thermal_energy = QtWidgets.QWidget(self.results)
-        self.graph_thermal_energy.setGeometry(QtCore.QRect(610, 60, 581, 331))
+        self.graph_thermal_energy.setGeometry(QtCore.QRect(610, 0, 581, 400))
+        self.graph_thermal_energy.setStyleSheet("border: 1px solid #000000;\n"
+"border-radius: 10px;")
         self.graph_thermal_energy.setObjectName("graph_thermal_energy")
         self.stackedWidget.addWidget(self.results)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -461,6 +440,8 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        
+        add_info_icons_to_line_edits(self, MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -486,11 +467,7 @@ class Ui_MainWindow(object):
         self.push_button_import_energy_data_csv.setText(_translate("MainWindow", "Загрузить данные\n"
 "по энергии в файл .csv"))
         self.push_button_import_all_xlsx.setText(_translate("MainWindow", "Загрузить все в файл .xlsx"))
-        self.label_2.setText(_translate("MainWindow", "Температурное распределение\n"
-"по длине реактора во времени (в середине)."))
-        self.label.setText(_translate("MainWindow", "Температурное распределение\n"
-"по длине реактора во времени (у стенок)."))
-        self.label_4.setText(_translate("MainWindow", "Расчет приближенного КПД системы\n"
-"по отношению к базовому нагреву."))
         self.label_3.setText(_translate("MainWindow", "Расчет аккумулированной\n"
 "тепловой энергии в системе."))
+        self.label_4.setText(_translate("MainWindow", "Расчет приближенного КПД системы\n"
+"по отношению к базовому нагреву."))

@@ -707,51 +707,24 @@ QPushButton {
        <rect>
         <x>20</x>
         <y>120</y>
-        <width>551</width>
-        <height>261</height>
+        <width>571</width>
+        <height>211</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_2">
+       <item row="1" column="1">
+        <widget class="QLabel" name="label_cop_base_heating">
          <property name="font">
           <font>
            <pointsize>10</pointsize>
           </font>
          </property>
          <property name="text">
-          <string>Температурное распределение
-по длине реактора во времени (в середине).</string>
+          <string/>
          </property>
         </widget>
        </item>
        <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Температурное распределение
-по длине реактора во времени (у стенок).</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Расчет приближенного КПД системы
-по отношению к базовому нагреву.</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
         <widget class="QLabel" name="label_3">
          <property name="font">
           <font>
@@ -764,44 +737,21 @@ QPushButton {
          </property>
         </widget>
        </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Расчет приближенного КПД системы
+по отношению к базовому нагреву.</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="1">
-        <widget class="QLabel" name="label_temperature_distribution_walls">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
         <widget class="QLabel" name="label_accumulated_thermal_energy">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLabel" name="label_cop_base_heating">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="label_temperature_distribution_middle">
          <property name="font">
           <font>
            <pointsize>10</pointsize>
@@ -818,9 +768,9 @@ QPushButton {
       <property name="geometry">
        <rect>
         <x>610</x>
-        <y>410</y>
+        <y>400</y>
         <width>581</width>
-        <height>381</height>
+        <height>400</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -832,9 +782,9 @@ border-radius: 10px;</string>
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>410</y>
+        <y>400</y>
         <width>591</width>
-        <height>381</height>
+        <height>400</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -846,9 +796,9 @@ border-radius: 10px;</string>
       <property name="geometry">
        <rect>
         <x>610</x>
-        <y>20</y>
+        <y>0</y>
         <width>581</width>
-        <height>381</height>
+        <height>400</height>
        </rect>
       </property>
       <property name="styleSheet">

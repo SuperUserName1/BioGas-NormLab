@@ -1,84 +1,166 @@
 import numpy as np
-import matplotlib.pyplot as plt
+from PyQt5.QtWidgets import QVBoxLayout, QLayout
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+from matplotlib.figure import Figure
 
-class AdvancedHeatModel:
-    def __init__(self, params):
-        # Параметры модели
-        self.L = params['L']  # длина реактора, м
-        self.T_init = params['T_init']  # начальная температура, °C
-        self.T_wall = params['T_wall']  # температура стенки, °C
-        self.dt = params['dt']  # шаг по времени, с
-        self.t_max = params['t_max']  # общее время моделирования, с
-        self.rho = params['rho']  # плотность, кг/м3
-        self.H = params['H']  # влажность
-        self.dx = params['dx']  # шаг по пространству, м
+class Calculations:
+    def __init__(self, main_window):
+        self.main_window = main_window
+        self.ui = main_window.ui
+
+        # Инициализация параметров и модели
+        self.setup_parameters()
         
-        # Физические константы
-        self.Cp_dry = 2500
-        self.Cp_water = 4186
+        # Создаем холсты для графиков
+        self.setup_graph_widgets()
+    
+    def clear_layout(self, layout):
+        """Очистка содержимого layout"""
+        if layout is None:  # Добавленная проверка
+            return
+        while layout.count():
+            child = layout.takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
+
+    def setup_graph_widgets(self):
+        """Создаем холсты и панели инструментов для графиков"""
+        # Очищаем существующие виджеты
+        self.clear_layout(self.ui.graph_temperature_profiles.layout())
+        self.clear_layout(self.ui.graph_thermal_energy.layout())
+        self.clear_layout(self.ui.graph_temperature_change.layout())
+        
+        # График 1: Температурные профили в разные моменты времени
+        self.figure1 = Figure()
+        self.canvas1 = FigureCanvas(self.figure1)
+        self.toolbar1 = NavigationToolbar(self.canvas1, self.ui.graph_temperature_profiles)
+        
+        # Проверяем и создаем новый layout, если нужно
+        if self.ui.graph_temperature_profiles.layout() is None:
+            layout1 = QVBoxLayout(self.ui.graph_temperature_profiles)
+        else:
+            layout1 = self.ui.graph_temperature_profiles.layout()
+        layout1.addWidget(self.toolbar1)
+        layout1.addWidget(self.canvas1)
+        
+        # График 2: Накопленная энергия
+        self.figure2 = Figure()
+        self.canvas2 = FigureCanvas(self.figure2)
+        self.toolbar2 = NavigationToolbar(self.canvas2, self.ui.graph_thermal_energy)
+        
+        if self.ui.graph_thermal_energy.layout() is None:
+            layout2 = QVBoxLayout(self.ui.graph_thermal_energy)
+        else:
+            layout2 = self.ui.graph_thermal_energy.layout()
+        layout2.addWidget(self.toolbar2)
+        layout2.addWidget(self.canvas2)
+        
+        # График 3: Температура в срезах
+        self.figure3 = Figure()
+        self.canvas3 = FigureCanvas(self.figure3)
+        self.toolbar3 = NavigationToolbar(self.canvas3, self.ui.graph_temperature_change)
+        
+        if self.ui.graph_temperature_change.layout() is None:
+            layout3 = QVBoxLayout(self.ui.graph_temperature_change)
+        else:
+            layout3 = self.ui.graph_temperature_change.layout()
+        layout3.addWidget(self.toolbar3)
+        layout3.addWidget(self.canvas3)
+
+    def setup_parameters(self):
+        """Инициализация параметров модели"""
+        # Получение значений из интерфейса
+        self.T_wall = self.get_float_value(self.ui.line_edit_temperatur_walls.text(), 20.0)
+        self.L = self.get_float_value(self.ui.line_edit_reactor_parameters.text(), 1.0)                  
+        self.T_init = self.get_float_value(self.ui.line_edit_initial_temperature.text(), 20.0)
+        self.dt = self.get_float_value(self.ui.line_edit_time_step.text(), 1.0)                    
+        self.t_max = self.get_float_value(self.ui.line_edit_total_time.text(), 10.0)            
+        self.rho = self.get_float_value(self.ui.line_edit_density.text(), 1000.0)               
+        self.H = self.get_float_value(self.ui.line_edit_humidity.text(), 0.5)
+        
+        # Шаг по длине из интерфейса
+        self.dx = self.get_float_value(self.ui.line_edit_length_step.text(), 0.01)
+        
+        # Удельные теплоемкости из интерфейса
+        self.Cp_dry = 2500.0
+        self.Cp_water = 4186.0
+        
+        # Теплопроводности
         self.lambda_dry = 0.2
         self.lambda_water = 0.6
         self.b = 1e-3
         self.T0 = 30
         self.S = 1.0  # площадь поперечного сечения, м²
         
-        # Производные параметры
-        self.Nx = int(self.L / self.dx) + 1
-        self.Nt = int(self.t_max / self.dt)
-        self.x = np.linspace(0, self.L, self.Nx)
-        self.t = np.arange(0, self.Nt) * self.dt
+        # Расчет производных параметров
+        self.Nx = int(self.L / self.dx) + 1 if self.dx > 0 else 101
+        self.Nt = int(self.t_max / self.dt) if self.dt > 0 else 100
         
-        # Теплофизические свойства
-        self.Cp = self.Cp_dry * (1 - self.H) + self.Cp_water * self.H
-        self.lambda0 = self.lambda_dry * (1 - self.H) + self.lambda_water * self.H
+        # Расчет теплоемкости с учетом влажности
+        self.Cp = self.calculate_cp(self.H / 100.0)  # преобразуем % в долю
         
-        # Проверка устойчивости
-        self._check_stability()
-        
-        # Инициализация массивов
+        # Расчет базовой теплопроводности
+        self.lambda0 = self.lambda_dry * (1 - self.H / 100.0) + self.lambda_water * (self.H / 100.0)
+
+        # Инициализация температурного поля
         self.T = np.full(self.Nx, self.T_init)
         self.T[0] = self.T_wall
         self.T[-1] = self.T_wall
-        self.T_history = []
-        self.energy = np.zeros(self.Nt)
-        self.Q_heating = 0.0
-        self.eta = np.zeros(self.Nt)
-    
-    def _check_stability(self):
+
+        # Проверка устойчивости
+        self.check_stability()
+
+    def calculate_cp(self, H_fraction):
+        """Расчет удельной теплоемкости с учетом влажности"""
+        return self.Cp_dry * (1 - H_fraction) + self.Cp_water * H_fraction
+
+    def check_stability(self):
         """Проверка устойчивости явной схемы"""
         alpha = self.lambda0 / (self.rho * self.Cp)
         sigma = alpha * self.dt / self.dx**2
         if sigma > 0.5:
-            raise ValueError(
-                f"Схема неустойчива! Число Куранта = {sigma:.2f} > 0.5. "
-                f"Уменьшите dt до {0.5*self.dx**2/alpha:.2f} с или меньше."
-            )
-    
-    def calc_lambda(self, T):
-        """Теплопроводность от температуры"""
-        return self.lambda0 * (1 + self.b * (T - self.T0))
-    
-    def solve(self):
-        """Решение уравнения теплопроводности"""
+            print(f"Предупреждение: Схема может быть неустойчивой! Число Куранта = {sigma:.2f} > 0.5")
+            print(f"Рекомендуется уменьшить шаг по времени до {0.5*self.dx**2/alpha:.2f} с")
+
+    def get_float_value(self, text, default=0.0):
+        """Получение float-значения из текста"""
+        if text.strip() == "":
+            return default
+        try:
+            return float(text)
+        except ValueError:
+            return default
+
+    def start_calculations(self):
+        """Основной расчетный цикл"""
+        # Обновляем параметры перед расчетом
+        self.setup_parameters()
+        
+        # Массивы для результатов
+        self.energy = np.zeros(self.Nt)
+        self.Q_heating = 0.0
+        self.eta = np.zeros(self.Nt)
+        self.T_history = []
+        self.x = np.linspace(0, self.L, self.Nx)
+
+        # Основной цикл
         for n in range(self.Nt):
             # Теплопроводность и коэффициент температуропроводности
-            lambdas = self.calc_lambda(self.T)
+            lambdas = self.lambda0 * (1 + self.b * (self.T - self.T0))
             alpha = lambdas / (self.rho * self.Cp)
-            
+
             # Явная схема
             T_new = self.T.copy()
             for i in range(1, self.Nx-1):
-                laplacian = self.T[i+1] - 2*self.T[i] + self.T[i-1]
-                T_new[i] = self.T[i] + alpha[i] * self.dt / self.dx**2 * laplacian
+                T_new[i] = self.T[i] + alpha[i] * self.dt / self.dx**2 * (self.T[i+1] - 2*self.T[i] + self.T[i-1])
             
             # Граничные условия
             T_new[0] = self.T_wall
             T_new[-1] = self.T_wall
             self.T = T_new
-            
-            # Сохранение истории
             self.T_history.append(self.T.copy())
-            
+
             # Тепловые потоки на границах
             q_left = -lambdas[0] * (self.T[1] - self.T[0]) / self.dx
             q_right = -lambdas[-1] * (self.T[-1] - self.T[-2]) / self.dx
@@ -96,89 +178,83 @@ class AdvancedHeatModel:
             if self.Q_heating > 0:
                 self.eta[n] = (self.energy[n] - self.energy[0]) / self.Q_heating
 
+        # Вывод результатов
+        print(f"Итоговая аккумулированная энергия: {self.energy[-1]:.2e} Дж")
+        print(f"Подведённое тепло: {self.Q_heating:.2e} Дж")
+        print(f"КПД системы: {self.eta[-1]*100:.2f}%")
 
-class Calculations:
-    def __init__(self, main_window):
-        self.main_window = main_window
-        self.ui = main_window.ui
+        # Обновляем метки с результатами
+        self.ui.label_accumulated_thermal_energy.setText(f"{self.energy[-1]/1e6:.2f} МДж")
+        self.ui.label_cop_base_heating.setText(f"{self.eta[-1]*100:.2f} %")
         
-        # Получение параметров из UI
-        params = {
-            'L': self.get_float(self.ui.line_edit_reactor_parameters, 1.0),
-            'T_init': self.get_float(self.ui.line_edit_initial_temperature, 15.0),
-            'T_wall': self.get_float(self.ui.line_edit_temperatur_walls, 120.0),
-            'dt': self.get_float(self.ui.line_edit_time_step, 10.0),
-            't_max': self.get_float(self.ui.line_edit_total_time, 10400.0),
-            'rho': self.get_float(self.ui.line_edit_density, 1000.0),
-            'H': self.get_float(self.ui.line_edit_humidity, 0.7) / 100.0,  
-            'dx': self.get_float(self.ui.line_edit_length_step, 0.001)
-        }
+        # Обновление графиков
+        self.update_plots()
+
+    def update_plots(self):
+        """Обновление всех графиков"""
+        self.plot_temperature_profiles()
+        self.plot_accumulated_energy()
+        self.plot_temperature_slices()
         
-        # Проверка плотности
-        if params['rho'] < 100:
-            print(f"Предупреждение: Нереально низкая плотность {params['rho']} кг/м³!")
+        # Перерисовка холстов
+        self.canvas1.draw()
+        self.canvas2.draw()
+        self.canvas3.draw()
+
+    def plot_temperature_profiles(self):
+        """Температурные профили в разные моменты времени (для graph_temperature_profiles)"""
+        self.figure1.clear()
+        ax = self.figure1.add_subplot(111)
         
-        # Создание и запуск модели
-        self.model = AdvancedHeatModel(params)
-        self.model.solve()
-    
-    def get_float(self, widget, default):
-        """Получение float-значения из виджета"""
-        text = widget.text().strip()
-        return float(text) if text else default
-    
-    def start_calculations(self):
-        """Выполнение расчетов и визуализация"""
-        # Основные результаты
-        print(f"Итоговая энергия: {self.model.energy[-1]:.2e} Дж")
-        print(f"Подведённое тепло: {self.model.Q_heating:.2e} Дж")
-        print(f"КПД системы: {self.model.eta[-1]*100:.2f}%")
+        # Выбор моментов времени для отображения
+        save_indices = [0, self.Nt//4, self.Nt//2, 3*self.Nt//4, self.Nt-1]
+        time_labels = [f"{(i * self.dt)/3600:.1f} ч" for i in save_indices]
         
-        # Временные метки для сохненных профилей
-        save_indices = [0, self.model.Nt//4, self.model.Nt//2, 3*self.model.Nt//4, self.model.Nt-1]
-        saved_profiles = [self.model.T_history[i] for i in save_indices]
-        time_labels = [f"{(i * self.model.dt)/3600:.1f} ч" for i in save_indices]
+        for i, idx in enumerate(save_indices):
+            ax.plot(self.x, self.T_history[idx], label=time_labels[i])
         
-        # 1. График температурных профилей
-        plt.figure(figsize=(10, 6))
-        for profile, label in zip(saved_profiles, time_labels):
-            plt.plot(self.model.x, profile, label=label)
-        plt.xlabel('Длина реактора, м')
-        plt.ylabel('Температура, °C')
-        plt.title('Температурные профили во времени')
-        plt.legend()
-        plt.grid(True)
-        plt.ylim(0, self.model.T_wall + 10)  # Фиксированный диапазон
-        plt.show()
+        ax.set_xlabel('Длина реактора, м')
+        ax.set_ylabel('Температура, °C')
+        ax.set_title('Температурные профили во времени')
+        ax.legend()
+        ax.grid(True)
         
-        # 2. График накопленной энергии
-        plt.figure(figsize=(10, 6))
-        plt.plot(self.model.t / 3600, self.model.energy / 1e6)
-        plt.xlabel('Время, ч')
-        plt.ylabel('Аккумулированная энергия, МДж')
-        plt.title('Накопленная тепловая энергия')
-        plt.grid(True)
-        plt.show()
+        # Определение границ по Y
+        y_min = min(self.T_init, self.T_wall) - 5
+        y_max = max(self.T_init, self.T_wall) + 10
+        ax.set_ylim(y_min, y_max)
         
-        # 3. График КПД
-        plt.figure(figsize=(10, 6))
-        plt.plot(self.model.t / 3600, self.model.eta * 100)
-        plt.xlabel('Время, ч')
-        plt.ylabel('КПД, %')
-        plt.title('Эффективность системы')
-        plt.grid(True)
-        plt.ylim(0, 100)  # Ограничение 0-100%
-        plt.show()
+    def plot_accumulated_energy(self):
+        """График накопленной энергии (для graph_thermal_energy)"""
+        self.figure2.clear()
+        ax = self.figure2.add_subplot(111)
         
-        # 4. График температуры в контрольных точках
-        plt.figure(figsize=(10, 6))
-        idx1, idx2, idx3 = int(self.model.Nx*0.25), int(self.model.Nx*0.5), int(self.model.Nx*0.75)
-        plt.plot(self.model.t / 3600, [T[idx1] for T in self.model.T_history], label=f'x={self.model.x[idx1]:.2f} м')
-        plt.plot(self.model.t / 3600, [T[idx2] for T in self.model.T_history], label=f'x={self.model.x[idx2]:.2f} м')
-        plt.plot(self.model.t / 3600, [T[idx3] for T in self.model.T_history], label=f'x={self.model.x[idx3]:.2f} м')
-        plt.xlabel('Время, ч')
-        plt.ylabel('Температура, °C')
-        plt.title('Температура в фиксированных срезах')
-        plt.legend()
-        plt.grid(True)
-        plt.show()
+        time_hours = np.arange(self.Nt) * self.dt / 3600
+        ax.plot(time_hours, self.energy / 1e6)
+        
+        ax.set_xlabel('Время, ч')
+        ax.set_ylabel('Аккумулированная энергия, МДж')
+        ax.set_title('Накопленная тепловая энергия')
+        ax.grid(True)
+
+    def plot_temperature_slices(self):
+        """Температура в фиксированных срезах (для graph_temperature_change)"""
+        self.figure3.clear()
+        ax = self.figure3.add_subplot(111)
+        
+        time_hours = np.arange(self.Nt) * self.dt / 3600
+        
+        # Выбор трех точек: начало, середина и конец реактора
+        idx1 = 0  # начало
+        idx2 = self.Nx // 2  # середина
+        idx3 = self.Nx - 1  # конец
+        
+        ax.plot(time_hours, [T[idx1] for T in self.T_history], label=f'x={self.x[idx1]:.2f} м (начало)')
+        ax.plot(time_hours, [T[idx2] for T in self.T_history], label=f'x={self.x[idx2]:.2f} м (середина)')
+        ax.plot(time_hours, [T[idx3] for T in self.T_history], label=f'x={self.x[idx3]:.2f} м (конец)')
+        
+        ax.set_xlabel('Время, ч')
+        ax.set_ylabel('Температура, °C')
+        ax.set_title('Температура в фиксированных срезах')
+        ax.legend()
+        ax.grid(True)
