@@ -4,3 +4,5 @@ test.py
 test1.py
 test2.py
 csv_files/
+dist/
+build/

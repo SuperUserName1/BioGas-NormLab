@@ -15,7 +15,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
-        MainWindow.resize(1200, 900)
+        MainWindow.setFixedSize(1200, 900)
         MainWindow.setLayoutDirection(QtCore.Qt.LeftToRight)
         MainWindow.setAutoFillBackground(False)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -215,6 +215,7 @@ class Ui_MainWindow(object):
         self.label_notification.setGeometry(QtCore.QRect(220, 70, 701, 91))
         self.label_notification.setText("")
         self.label_notification.setObjectName("label_notification")
+        self.label_notification.hide()
         self.push_button_simulate = QtWidgets.QPushButton(self.main)
         self.push_button_simulate.setEnabled(True)
         self.push_button_simulate.setGeometry(QtCore.QRect(330, 810, 544, 67))

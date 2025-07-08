@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QGraphicsOpacityEffect, QApplication
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import QPropertyAnimation, QTimer
+from img_resource_path import resource_path
 
 class Notifications:
     def __init__(self, main_window):
@@ -13,7 +14,7 @@ class Notifications:
 
 
     def load_image(self, img_path):
-        image_notification = QPixmap(img_path)
+        image_notification = QPixmap(resource_path(img_path))
         if not image_notification.isNull():
             self.ui.label_notification.setPixmap(image_notification)
         else:
