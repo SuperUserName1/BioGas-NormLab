@@ -1,7 +1,4 @@
-import sys
-
 from PyQt5.QtWidgets import QMainWindow, QLineEdit
-from PyQt5.QtGui import QPixmap
 
 from main_window_ui import Ui_MainWindow
 from notifications import Notifications
@@ -16,10 +13,27 @@ class MainWindowLogic(QMainWindow):
         self.ui.setupUi(self)
 
         self.notification = Notifications(self)
+        self.calculations = Calculations(self)
 
         self.ui.push_button_window_results.clicked.connect(self.clickedButtonWindowResults)
         self.ui.push_button_window_calculation.clicked.connect(self.clickedButtonWindowCalculations)
         self.ui.push_button_simulate.clicked.connect(self.clickedButtonSimulate)
+
+        self.ui.push_button_import_temperature_distribution_csv.clicked.connect(self.clickedPushButtonImportTemperatureDistributionCsv)
+        self.ui.push_button_import_energy_data_csv.clicked.connect(self.clickedPushButtonImportEnergyDataCsv)
+        self.ui.push_button_import_all_xlsx.clicked.connect(self.clickedPushButtonImportAllXlsx)
+
+ 
+    def clickedPushButtonImportTemperatureDistributionCsv(self):
+        self.calculations.export_temperature_data()
+
+
+    def clickedPushButtonImportEnergyDataCsv(self):
+        self.calculations.export_energy_data()
+    
+    
+    def clickedPushButtonImportAllXlsx(self):
+        self.calculations.export_all_data()
         
 
     def clickedButtonWindowResults(self):
@@ -32,18 +46,12 @@ class MainWindowLogic(QMainWindow):
 
     def clickedButtonSimulate(self):
         try:
-            a = float(self.ui.line_edit_temperatur_walls.text())
-            print(a)
-        except ValueError:
-            print("FDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-        try:
             for row in range(self.ui.grid_layout_line_text.rowCount()):
                 for col in range(self.ui.grid_layout_line_text.columnCount()):
                     item = self.ui.grid_layout_line_text.itemAtPosition(row, col)
 
                     line_edit_widget = item.widget()
-                    #print(line_edit_widget.text())
-                            
+
                     if not isinstance(line_edit_widget, QLineEdit):
                         continue
 

@@ -39,7 +39,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="main">
      <widget class="QWidget" name="gridLayoutWidget_2">
@@ -48,7 +48,7 @@
         <x>20</x>
         <y>120</y>
         <width>1161</width>
-        <height>771</height>
+        <height>691</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="grid_layout_line_text" rowstretch="0,0,0,0,0" columnstretch="0,0">
@@ -77,7 +77,7 @@ width: 500;
 border-radius: 10px;      </string>
          </property>
          <property name="placeholderText">
-          <string>Шаг по длине (dx в метрах)</string>
+          <string>Шаг по длине </string>
          </property>
         </widget>
        </item>
@@ -129,7 +129,7 @@ width: 500;
 border-radius: 10px;      </string>
          </property>
          <property name="placeholderText">
-          <string>Параметры реактора (длинна в метрах)</string>
+          <string>Параметры реактора</string>
          </property>
         </widget>
        </item>
@@ -175,7 +175,7 @@ width: 500;
 border-radius: 10px;      </string>
          </property>
          <property name="placeholderText">
-          <string>Шаг по времени (dt в секундах)</string>
+          <string>Шаг по времени</string>
          </property>
         </widget>
        </item>
@@ -198,7 +198,7 @@ width: 500;
 border-radius: 10px;      </string>
          </property>
          <property name="placeholderText">
-          <string>Плотность (ρ в кг/м³)</string>
+          <string>Плотность</string>
          </property>
         </widget>
        </item>
@@ -221,7 +221,7 @@ width: 500;
 border-radius: 10px;      </string>
          </property>
          <property name="placeholderText">
-          <string>Удельная теплоемкость (Cp в Дж/(кг·K))</string>
+          <string>Удельная теплоемкость</string>
          </property>
         </widget>
        </item>
@@ -244,7 +244,7 @@ width: 500;
 border-radius: 10px;      </string>
          </property>
          <property name="placeholderText">
-          <string>Влажность (H в %)</string>
+          <string>Влажность </string>
          </property>
         </widget>
        </item>
@@ -267,44 +267,30 @@ width: 500;
 border-radius: 10px;      </string>
          </property>
          <property name="placeholderText">
-          <string>Общее время моделирования (в секундах)</string>
+          <string>Общее время моделирования </string>
          </property>
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QPushButton" name="push_button_simulate">
-         <property name="enabled">
-          <bool>true</bool>
+        <widget class="QLineEdit" name="line_edit_thermal_conductivity">
+         <property name="minimumSize">
+          <size>
+           <width>480</width>
+           <height>60</height>
+          </size>
          </property>
          <property name="font">
           <font>
-           <family>Agency FB</family>
-           <pointsize>20</pointsize>
-           <weight>50</weight>
-           <bold>false</bold>
+           <pointsize>10</pointsize>
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">
-QPushButton {
-	background-color: #0055ff;
-	width: 238px;
-	height: 67px;
-	border-radius: 10px;
-	color: #ffffff;
-}
-	QPushButton:hover {
-        background-color: #0049de;
-        transform: scale(1.05);
-    }
-    
-    QPushButton:pressed {
-        background-color: #0044cc;
-        transform: scale(0.95);
-    }</string>
+          <string notr="true">background-color: #f9f9f9;
+width: 500;
+border-radius: 10px;      </string>
          </property>
-         <property name="text">
-          <string>Смоделировать</string>
+         <property name="placeholderText">
+          <string>Коэфицент теплопроводимости</string>
          </property>
         </widget>
        </item>
@@ -417,10 +403,10 @@ horizontal-aligment: center;</string>
      <widget class="QLabel" name="label_9">
       <property name="geometry">
        <rect>
-        <x>680</x>
+        <x>720</x>
         <y>30</y>
-        <width>471</width>
-        <height>71</height>
+        <width>391</width>
+        <height>61</height>
        </rect>
       </property>
       <property name="font">
@@ -449,6 +435,49 @@ horizontal-aligment: center;</string>
       </property>
       <property name="text">
        <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="push_button_simulate">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>810</y>
+        <width>544</width>
+        <height>67</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Agency FB</family>
+        <pointsize>20</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+QPushButton {
+	background-color: #0055ff;
+	width: 238px;
+	height: 67px;
+	border-radius: 10px;
+	color: #ffffff;
+}
+	QPushButton:hover {
+        background-color: #0049de;
+        transform: scale(1.05);
+    }
+    
+    QPushButton:pressed {
+        background-color: #0044cc;
+        transform: scale(0.95);
+    }</string>
+      </property>
+      <property name="text">
+       <string>Смоделировать</string>
       </property>
      </widget>
     </widget>

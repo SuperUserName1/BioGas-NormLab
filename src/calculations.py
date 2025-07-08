@@ -1,8 +1,10 @@
 import numpy as np
-from PyQt5.QtWidgets import QVBoxLayout, QLayout
+import pandas as pd
+from PyQt5.QtWidgets import (QVBoxLayout, QFileDialog, QMessageBox)
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
+import openpyxl
 
 class Calculations:
     def __init__(self, main_window):
@@ -14,7 +16,11 @@ class Calculations:
         
         # Создаем холсты для графиков
         self.setup_graph_widgets()
-    
+        
+        self.temperature_exported = False
+        self.energy_exported = False
+        self.all_exported = False
+ 
     def clear_layout(self, layout):
         """Очистка содержимого layout"""
         if layout is None:  # Добавленная проверка
@@ -78,20 +84,16 @@ class Calculations:
         self.t_max = self.get_float_value(self.ui.line_edit_total_time.text(), 10.0)            
         self.rho = self.get_float_value(self.ui.line_edit_density.text(), 1000.0)               
         self.H = self.get_float_value(self.ui.line_edit_humidity.text(), 0.5)
-        
-        # Шаг по длине из интерфейса
         self.dx = self.get_float_value(self.ui.line_edit_length_step.text(), 0.01)
+        self.Cp_dry =  self.get_float_value(self.ui.line_edit_heat_capacity.text(), 2500.0)
+        self.lambda_dry = self.get_float_value(self.ui.line_edit_thermal_conductivity.text(), 0.1)
         
-        # Удельные теплоемкости из интерфейса
-        self.Cp_dry = 2500.0
         self.Cp_water = 4186.0
         
         # Теплопроводности
-        self.lambda_dry = 0.2
         self.lambda_water = 0.6
         self.b = 1e-3
-        self.T0 = 30
-        self.S = 1.0  # площадь поперечного сечения, м²
+        self.T0 = 45
         
         # Расчет производных параметров
         self.Nx = int(self.L / self.dx) + 1 if self.dx > 0 else 101
@@ -123,6 +125,7 @@ class Calculations:
             print(f"Предупреждение: Схема может быть неустойчивой! Число Куранта = {sigma:.2f} > 0.5")
             print(f"Рекомендуется уменьшить шаг по времени до {0.5*self.dx**2/alpha:.2f} с")
 
+
     def get_float_value(self, text, default=0.0):
         """Получение float-значения из текста"""
         if text.strip() == "":
@@ -132,17 +135,25 @@ class Calculations:
         except ValueError:
             return default
 
+
     def start_calculations(self):
-        """Основной расчетный цикл"""
+        """Основной расчетный цикл (без использования площади сечения)"""
         # Обновляем параметры перед расчетом
         self.setup_parameters()
         
         # Массивы для результатов
-        self.energy = np.zeros(self.Nt)
-        self.Q_heating = 0.0
+        self.energy = np.zeros(self.Nt)  # Удельная энергия (Дж/м)
         self.eta = np.zeros(self.Nt)
         self.T_history = []
         self.x = np.linspace(0, self.L, self.Nx)
+        
+        # Переменные для тепловых потоков
+        self.Q_heating = 0.0  # Суммарное удельное подведенное тепло (Дж/м)
+        self.energy_initial = 0.0  # Начальная энергия
+
+        # Расчет начальной энергии
+        for i in range(self.Nx):
+            self.energy_initial += self.rho * self.Cp * (self.T[i] - self.T_init) * self.dx
 
         # Основной цикл
         for n in range(self.Nt):
@@ -161,34 +172,40 @@ class Calculations:
             self.T = T_new
             self.T_history.append(self.T.copy())
 
-            # Тепловые потоки на границах
+            # Тепловые потоки на границах (Вт/м)
             q_left = -lambdas[0] * (self.T[1] - self.T[0]) / self.dx
             q_right = -lambdas[-1] * (self.T[-1] - self.T[-2]) / self.dx
             
-            # Подведенная энергия
-            dQ_heating = self.S * (q_left - q_right) * self.dt
+            # Удельное подведенное тепло (Дж/м)
+            dQ_heating = (q_left - q_right) * self.dt
             self.Q_heating += dQ_heating
             
-            # Аккумулированная энергия
-            delta_T = self.T - self.T_init
-            integral = 0.5 * (delta_T[0] + delta_T[-1]) + np.sum(delta_T[1:-1])
-            self.energy[n] = self.rho * self.Cp * self.S * self.dx * integral
+            # Удельная аккумулированная энергия (Дж/м)
+            accumulated_energy = 0.0
+            for i in range(self.Nx):
+                accumulated_energy += self.rho * self.Cp * (self.T[i] - self.T_init) * self.dx
+            self.energy[n] = accumulated_energy - self.energy_initial
             
             # КПД системы
-            if self.Q_heating > 0:
-                self.eta[n] = (self.energy[n] - self.energy[0]) / self.Q_heating
+            if self.Q_heating > 0 and self.energy[n] > 0:
+                self.eta[n] = min(1.0, self.energy[n] / self.Q_heating)
+            else:
+                self.eta[n] = 0.0
 
         # Вывод результатов
-        print(f"Итоговая аккумулированная энергия: {self.energy[-1]:.2e} Дж")
-        print(f"Подведённое тепло: {self.Q_heating:.2e} Дж")
+        print(f"Итоговая аккумулированная энергия: {self.energy[-1]:.2e} Дж/м")
+        print(f"Подведённое тепло: {self.Q_heating:.2e} Дж/м")
         print(f"КПД системы: {self.eta[-1]*100:.2f}%")
+        print(f"Количество ячеек: {self.Nx}")
+        print(f"Длина ячейки dx: {self.dx:.6f} м")
 
         # Обновляем метки с результатами
-        self.ui.label_accumulated_thermal_energy.setText(f"{self.energy[-1]/1e6:.2f} МДж")
+        self.ui.label_accumulated_thermal_energy.setText(f"{self.energy[-1]/1e6:.2f} МДж/м")
         self.ui.label_cop_base_heating.setText(f"{self.eta[-1]*100:.2f} %")
         
         # Обновление графиков
         self.update_plots()
+
 
     def update_plots(self):
         """Обновление всех графиков"""
@@ -217,7 +234,7 @@ class Calculations:
         ax.set_ylabel('Температура, °C')
         ax.set_title('Температурные профили во времени')
         ax.legend()
-        ax.grid(True)
+        ax.grid(True)       
         
         # Определение границ по Y
         y_min = min(self.T_init, self.T_wall) - 5
@@ -258,3 +275,146 @@ class Calculations:
         ax.set_title('Температура в фиксированных срезах')
         ax.legend()
         ax.grid(True)
+  
+  
+    def export_temperature_data(self):
+        """Экспорт температурных данных в CSV в том же формате, что и в листе Temperature"""
+        if not hasattr(self, 'T_history') or len(self.T_history) == 0:
+            QMessageBox.warning(self.main_window, "Нет данных", "Сначала выполните расчеты")
+            return
+            
+        try:
+            filename, _ = QFileDialog.getSaveFileName(
+                self.main_window,
+                "Экспорт температурных данных",
+                "temperature_data.csv",
+                "CSV Files (*.csv)"
+            )
+            
+            if not filename:
+                return
+                
+            # Выбор моментов времени для экспорта (те же, что и в export_all_data)
+            save_indices = [0, self.Nt//4, self.Nt//2, 3*self.Nt//4, self.Nt-1]
+            time_points = [i * self.dt for i in save_indices]
+            
+            # Создаем данные для экспорта
+            headers = ["x (м)"] + [f"t = {tp:.1f} с" for tp in time_points]
+            data = [headers]
+            
+            # Добавляем строки с данными
+            for i, x_val in enumerate(self.x):
+                row = [f"{x_val:.3f}".replace('.', ',')]  # Заменяем точку на запятую в координате X
+                for idx in save_indices:
+                    # Форматируем температуру с запятой в качестве разделителя
+                    temp_str = f"{self.T_history[idx][i]:.8f}".replace('.', ',')
+                    row.append(temp_str)
+                data.append(row)
+            
+            # Записываем данные в CSV с правильным разделителем
+            with open(filename, 'w', encoding='utf-8-sig') as f:
+                # Используем точку с запятой в качестве разделителя
+                for row in data:
+                    f.write(";".join(row) + "\n")
+            
+            QMessageBox.information(self.main_window, "Успех", 
+                                   "Температурные данные успешно экспортированы в формате CSV!")
+            
+        except Exception as e:
+            QMessageBox.critical(self.main_window, "Ошибка", 
+                                f"Ошибка экспорта: {str(e)}")
+
+    def export_energy_data(self):
+        """Экспорт энергетических данных в CSV с разделением по времени"""
+        if not hasattr(self, 'energy') or len(self.energy) == 0:
+            QMessageBox.warning(self.main_window, "Нет данных", "Сначала выполните расчеты")
+            return
+        try:
+            filename, _ = QFileDialog.getSaveFileName(
+                self.main_window,
+                "Экспорт энергетических данных",
+                "thermal_energy.csv",
+                "CSV Files (*.csv)"
+            )
+            if not filename:
+                return
+            
+            # Создание DataFrame с энергетическими параметрами
+            energy_data = {
+                't (с)': np.arange(self.Nt) * self.dt,
+                't (ч)': np.arange(self.Nt) * self.dt / 3600,
+                'Энергия (Дж)': self.energy,
+                'КПД (%)': self.eta * 100
+            }
+            energy_df = pd.DataFrame(energy_data)
+            
+            # Сохранение в CSV с правильной кодировкой
+            energy_df.to_csv(filename, 
+                            index=False, 
+                            sep=';', 
+                            decimal=',',
+                            encoding='utf-8-sig')  # Добавлена правильная кодировка
+            
+            QMessageBox.information(self.main_window, "Успех", "Энергетические данные успешно экспортированы!")
+        except Exception as e:
+            QMessageBox.critical(self.main_window, "Ошибка", f"Ошибка экспорта: {str(e)}")
+   
+
+    def export_all_data(self):
+        """Экспорт всех данных в Excel"""
+        if not hasattr(self, 'T_history') or not hasattr(self, 'energy'):
+            QMessageBox.warning(self.main_window, "Нет данных", "Сначала выполните расчеты")
+            return
+            
+        try:
+            filename, _ = QFileDialog.getSaveFileName(
+                self.main_window,
+                "Экспорт всех данных",
+                "simulation_results.xlsx",
+                "Excel Files (*.xlsx)"
+            )
+            
+            if not filename:
+                return
+                
+            # Создаем Excel writer
+            with pd.ExcelWriter(filename) as writer:
+                # Экспорт температурных данных
+                save_indices = [0, self.Nt//4, self.Nt//2, 3*self.Nt//4, self.Nt-1]
+                time_points = [i * self.dt for i in save_indices]
+                
+                temp_data = {'x (м)': self.x}
+                for i, idx in enumerate(save_indices):
+                    temp_data[f"t = {time_points[i]:.1f} с"] = self.T_history[idx]
+                
+                temp_df = pd.DataFrame(temp_data)
+                temp_df.to_excel(writer, sheet_name='Temperature', index=False)
+                
+                # Экспорт энергетических данных
+                energy_data = {
+                    't (с)': np.arange(self.Nt) * self.dt,
+                    't (ч)': np.arange(self.Nt) * self.dt / 3600,
+                    'Энергия (Дж)': self.energy,
+                    'КПД (%)': self.eta * 100
+                }
+                
+                energy_df = pd.DataFrame(energy_data)
+                energy_df.to_excel(writer, sheet_name='Energy', index=False)
+                
+                # Экспорт параметров модели
+                params_data = {
+                    'Параметр': ['Длина реактора', 'Температура стенки', 'Начальная температура',
+                                 'Шаг по времени', 'Общее время', 'Плотность', 'Влажность',
+                                 'Теплоемкость сухого вещества', 'Теплоемкость воды'],
+                    'Значение': [self.L, self.T_wall, self.T_init, self.dt, self.t_max,
+                                 self.rho, self.H, self.Cp_dry, self.Cp_water],
+                    'Единицы': ['м', '°C', '°C', 'с', 'с', 'кг/м³', '%', 'Дж/(кг·K)', 'Дж/(кг·K)']
+                }
+                
+                params_df = pd.DataFrame(params_data)
+                params_df.to_excel(writer, sheet_name='Parameters', index=False)
+            
+            QMessageBox.information(self.main_window, "Успех", "Все данные успешно экспортированы в Excel!")
+            
+        except Exception as e:
+            QMessageBox.critical(self.main_window, "Ошибка", f"Ошибка экспорта: {str(e)}")

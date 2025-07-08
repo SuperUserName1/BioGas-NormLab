@@ -11,7 +11,8 @@ def add_info_icons_to_line_edits(self, MainWindow):
             self.line_edit_heat_capacity,
             self.line_edit_humidity,
             self.line_edit_length_step,
-            self.line_edit_total_time
+            self.line_edit_total_time,
+            self.line_edit_thermal_conductivity
     ]
     
     tooltips = {
@@ -23,7 +24,8 @@ def add_info_icons_to_line_edits(self, MainWindow):
             self.line_edit_heat_capacity: "Удельная теплоемкость в Дж/(кг·K)",
             self.line_edit_humidity: "Влажность материала в %",
             self.line_edit_length_step: "Шаг по длине реактора в метрах",
-            self.line_edit_total_time: "Общее время моделирования в секундах"
+            self.line_edit_total_time: "Общее время моделирования в секундах",
+            self.line_edit_thermal_conductivity: "Теплопроводимость :)"
     }
     
     for line_edit in line_edits:

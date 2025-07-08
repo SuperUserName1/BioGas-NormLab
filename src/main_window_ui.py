@@ -15,7 +15,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
-        MainWindow.setFixedSize(1200, 900)
+        MainWindow.resize(1200, 900)
         MainWindow.setLayoutDirection(QtCore.Qt.LeftToRight)
         MainWindow.setAutoFillBackground(False)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -31,7 +31,7 @@ class Ui_MainWindow(object):
         self.main = QtWidgets.QWidget()
         self.main.setObjectName("main")
         self.gridLayoutWidget_2 = QtWidgets.QWidget(self.main)
-        self.gridLayoutWidget_2.setGeometry(QtCore.QRect(20, 120, 1161, 771))
+        self.gridLayoutWidget_2.setGeometry(QtCore.QRect(20, 120, 1161, 691))
         self.gridLayoutWidget_2.setObjectName("gridLayoutWidget_2")
         self.grid_layout_line_text = QtWidgets.QGridLayout(self.gridLayoutWidget_2)
         self.grid_layout_line_text.setContentsMargins(0, 0, 0, 0)
@@ -133,33 +133,16 @@ class Ui_MainWindow(object):
 "border-radius: 10px;      ")
         self.line_edit_total_time.setObjectName("line_edit_total_time")
         self.grid_layout_line_text.addWidget(self.line_edit_total_time, 4, 0, 1, 1)
-        self.push_button_simulate = QtWidgets.QPushButton(self.gridLayoutWidget_2)
-        self.push_button_simulate.setEnabled(True)
+        self.line_edit_thermal_conductivity = QtWidgets.QLineEdit(self.gridLayoutWidget_2)
+        self.line_edit_thermal_conductivity.setMinimumSize(QtCore.QSize(480, 60))
         font = QtGui.QFont()
-        font.setFamily("Agency FB")
-        font.setPointSize(20)
-        font.setBold(False)
-        font.setWeight(50)
-        self.push_button_simulate.setFont(font)
-        self.push_button_simulate.setStyleSheet("\n"
-"QPushButton {\n"
-"    background-color: #0055ff;\n"
-"    width: 238px;\n"
-"    height: 67px;\n"
-"    border-radius: 10px;\n"
-"    color: #ffffff;\n"
-"}\n"
-"    QPushButton:hover {\n"
-"        background-color: #0049de;\n"
-"        transform: scale(1.05);\n"
-"    }\n"
-"    \n"
-"    QPushButton:pressed {\n"
-"        background-color: #0044cc;\n"
-"        transform: scale(0.95);\n"
-"    }")
-        self.push_button_simulate.setObjectName("push_button_simulate")
-        self.grid_layout_line_text.addWidget(self.push_button_simulate, 4, 1, 1, 1)
+        font.setPointSize(10)
+        self.line_edit_thermal_conductivity.setFont(font)
+        self.line_edit_thermal_conductivity.setStyleSheet("background-color: #f9f9f9;\n"
+"width: 500;\n"
+"border-radius: 10px;      ")
+        self.line_edit_thermal_conductivity.setObjectName("line_edit_thermal_conductivity")
+        self.grid_layout_line_text.addWidget(self.line_edit_thermal_conductivity, 4, 1, 1, 1)
         self.frame_2 = QtWidgets.QFrame(self.main)
         self.frame_2.setGeometry(QtCore.QRect(0, 0, 600, 120))
         self.frame_2.setStyleSheet("background-color: rgb(0, 85, 255);\n"
@@ -219,7 +202,7 @@ class Ui_MainWindow(object):
 "    }")
         self.push_button_window_results.setObjectName("push_button_window_results")
         self.label_9 = QtWidgets.QLabel(self.main)
-        self.label_9.setGeometry(QtCore.QRect(680, 30, 471, 71))
+        self.label_9.setGeometry(QtCore.QRect(720, 30, 391, 61))
         font = QtGui.QFont()
         font.setFamily("Britannic Bold")
         font.setPointSize(30)
@@ -232,6 +215,33 @@ class Ui_MainWindow(object):
         self.label_notification.setGeometry(QtCore.QRect(220, 70, 701, 91))
         self.label_notification.setText("")
         self.label_notification.setObjectName("label_notification")
+        self.push_button_simulate = QtWidgets.QPushButton(self.main)
+        self.push_button_simulate.setEnabled(True)
+        self.push_button_simulate.setGeometry(QtCore.QRect(330, 810, 544, 67))
+        font = QtGui.QFont()
+        font.setFamily("Agency FB")
+        font.setPointSize(20)
+        font.setBold(False)
+        font.setWeight(50)
+        self.push_button_simulate.setFont(font)
+        self.push_button_simulate.setStyleSheet("\n"
+"QPushButton {\n"
+"    background-color: #0055ff;\n"
+"    width: 238px;\n"
+"    height: 67px;\n"
+"    border-radius: 10px;\n"
+"    color: #ffffff;\n"
+"}\n"
+"    QPushButton:hover {\n"
+"        background-color: #0049de;\n"
+"        transform: scale(1.05);\n"
+"    }\n"
+"    \n"
+"    QPushButton:pressed {\n"
+"        background-color: #0044cc;\n"
+"        transform: scale(0.95);\n"
+"    }")
+        self.push_button_simulate.setObjectName("push_button_simulate")
         self.stackedWidget.addWidget(self.main)
         self.results = QtWidgets.QWidget()
         self.results.setObjectName("results")
@@ -440,26 +450,28 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        
-        add_info_icons_to_line_edits(self, MainWindow)
 
+        add_info_icons_to_line_edits(self, MainWindow)
+    
+    
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.line_edit_length_step.setPlaceholderText(_translate("MainWindow", "Шаг по длине (dx в метрах)"))
+        self.line_edit_length_step.setPlaceholderText(_translate("MainWindow", "Шаг по длине "))
         self.line_edit_initial_temperature.setPlaceholderText(_translate("MainWindow", "Начальная температура"))
-        self.line_edit_reactor_parameters.setPlaceholderText(_translate("MainWindow", "Параметры реактора (длинна в метрах)"))
+        self.line_edit_reactor_parameters.setPlaceholderText(_translate("MainWindow", "Параметры реактора"))
         self.line_edit_temperatur_walls.setPlaceholderText(_translate("MainWindow", "Температура стенки"))
-        self.line_edit_time_step.setPlaceholderText(_translate("MainWindow", "Шаг по времени (dt в секундах)"))
-        self.line_edit_density.setPlaceholderText(_translate("MainWindow", "Плотность (ρ в кг/м³)"))
-        self.line_edit_heat_capacity.setPlaceholderText(_translate("MainWindow", "Удельная теплоемкость (Cp в Дж/(кг·K))"))
-        self.line_edit_humidity.setPlaceholderText(_translate("MainWindow", "Влажность (H в %)"))
-        self.line_edit_total_time.setPlaceholderText(_translate("MainWindow", "Общее время моделирования (в секундах)"))
-        self.push_button_simulate.setText(_translate("MainWindow", "Смоделировать"))
+        self.line_edit_time_step.setPlaceholderText(_translate("MainWindow", "Шаг по времени"))
+        self.line_edit_density.setPlaceholderText(_translate("MainWindow", "Плотность"))
+        self.line_edit_heat_capacity.setPlaceholderText(_translate("MainWindow", "Удельная теплоемкость"))
+        self.line_edit_humidity.setPlaceholderText(_translate("MainWindow", "Влажность "))
+        self.line_edit_total_time.setPlaceholderText(_translate("MainWindow", "Общее время моделирования "))
+        self.line_edit_thermal_conductivity.setPlaceholderText(_translate("MainWindow", "Коэфицент теплопроводимости"))
         self.frame_2.setToolTip(_translate("MainWindow", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
         self.push_button_0.setText(_translate("MainWindow", "Рассчеты"))
         self.push_button_window_results.setText(_translate("MainWindow", "Результаты"))
         self.label_9.setText(_translate("MainWindow", "BioGas NormLab"))
+        self.push_button_simulate.setText(_translate("MainWindow", "Смоделировать"))
         self.push_button_window_calculation.setText(_translate("MainWindow", "Рассчеты"))
         self.pushButton_1.setText(_translate("MainWindow", "Результаты"))
         self.push_button_import_temperature_distribution_csv.setText(_translate("MainWindow", "Загрузить температурное \n"
